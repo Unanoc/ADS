@@ -32,7 +32,7 @@ public:
     Queue(int initialCapacity = INIT_CAPACITY);
     ~Queue();
 
-    void Enqueue(T item);
+    void Enqueue(T& item);
     T Dequeue();
     
 private:
@@ -64,7 +64,7 @@ Queue<T>::~Queue() {
 
 
 template <class T>
-void Queue<T>::Enqueue(T item) {
+void Queue<T>::Enqueue(T& item) {
     if (_size == _capacity) expand();
 
     if (_tail == _capacity - 1) {
