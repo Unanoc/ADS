@@ -15,7 +15,6 @@
 
 
 #include <iostream>
-#include <cassert>
 
 
 void initialize(int *arr, int size) {
@@ -43,10 +42,10 @@ int binary_search(const int *arr, int l, int r, int x) {
 size_t intersection(int *arr_first, int first_size, int *arr_second, int second_size, int *res) {
 
     size_t count = 0;
+    int power_of_two_value = 1;
 
     for (int i = 0; i < second_size; ++i) {
 
-        int power_of_two_value = 1;
 
         while ((power_of_two_value < first_size) && (arr_second[i] >= arr_first[power_of_two_value]))
                 power_of_two_value *= 2;
@@ -58,8 +57,11 @@ size_t intersection(int *arr_first, int first_size, int *arr_second, int second_
 
         int search_result = binary_search(arr_first, left, power_of_two_value, arr_second[i]);
 
-        if (search_result > -1)
+        if (search_result > -1) {
             res[count++] = arr_second[i];
+            if (search_result > 0)
+                power_of_two_value = search_result;
+        }
 
     }
 
@@ -70,14 +72,14 @@ int main() {
     int first_size = 0;
     int second_size = 0;
 
-    assert(std::cin >> first_size >> second_size);
+    std::cin >> first_size >> second_size;
 
     if (first_size < 0 || second_size < 0)
         return 0;
 
     if (first_size <= second_size || first_size > 10000)
         return 0;
-    
+
 
     auto first_array = new int [first_size];
     auto second_array = new int [second_size];
