@@ -46,7 +46,6 @@ size_t intersection(int *arr_first, int first_size, int *arr_second, int second_
 
     for (int i = 0; i < second_size; ++i) {
 
-
         while ((power_of_two_value < first_size) && (arr_second[i] >= arr_first[power_of_two_value]))
                 power_of_two_value *= 2;
 
