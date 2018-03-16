@@ -1,4 +1,4 @@
-void CoctailSort(int a[], int n){
+void CoctailSort(int a[], int n) {
     int left = 0;
     int right = n;
 
