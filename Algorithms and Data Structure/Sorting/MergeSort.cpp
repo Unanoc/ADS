@@ -1,4 +1,4 @@
-void merge(int arr[], int left, int middle, int right){
+void merge(int arr[], int left, int middle, int right) {
 
     int sizeOfLeftPart = middle-left+1;
     int sizeOfRightPart = right-middle;
@@ -11,18 +11,19 @@ void merge(int arr[], int left, int middle, int right){
         rightPart[i] = arr[middle + 1 + i];
 
     int i = 0, j = 0, k = left;
-    while(i < sizeOfLeftPart && j < sizeOfRightPart){
-        if (leftPart[i] <= rightPart[j]){
+    while (i < sizeOfLeftPart && j < sizeOfRightPart) {
+        if (leftPart[i] <= rightPart[j]) {
             arr[k] = leftPart[i];
             i++;
-        }else{
+        }
+        else {
             arr[k] = rightPart[j];
             j++;
         }
         k++;
     }
 
-    while (i < sizeOfLeftPart){
+    while (i < sizeOfLeftPart) {
         arr[k] = leftPart[i];
         i++;
         k++;
@@ -35,8 +36,8 @@ void merge(int arr[], int left, int middle, int right){
     }
 }
 
-void MergeSort(int arr[], int l, int r){
-    if (l < r){
+void MergeSort(int arr[], int l, int r) {
+    if (l < r) {
 
         int middle = l+(r-l)/2;
 
