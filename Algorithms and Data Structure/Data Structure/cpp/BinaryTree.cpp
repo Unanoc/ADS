@@ -1,10 +1,13 @@
-struct node{
+#include <iostream>
+
+
+struct node {
     int value;
     node *left;
     node *right;
 };
 
-void add_element(node *&root, int value){
+void add_element(node *&root, int value) {
     if (root == NULL){
         root = new node;
         root->value = value;
@@ -18,7 +21,7 @@ void add_element(node *&root, int value){
         add_element(root->left, value);
 }
 
-void inverse(node *root){
+void inverse(node *root) {
     if (root == NULL)
         return;
 
@@ -27,7 +30,7 @@ void inverse(node *root){
     inverse(root->right);
 }
 
-void reverse(node *root){
+void reverse(node *root) {
     if (root == NULL)
         return;
 
@@ -36,12 +39,13 @@ void reverse(node *root){
     reverse(root->left);
 }
 
-void search(node *root, int x){
+void search(node *root, int x) {
     if (root == NULL)
         return 0;
     if (x == root->value) {
         return 1;
     }
+    
     search(root->left,x);
     search(root->right,x);
 }
