@@ -29,19 +29,17 @@ double get_max_knapsack_value(int capacity, std::vector <Item> items) {
 }
 
 
-
-
 int main() {
     int number_of_items;
     int knapsack_capacity;
     std::cin >> number_of_items >> knapsack_capacity;
     std::vector <Item> items(number_of_items);
+    
     for (int i = 0; i < number_of_items; ++i) {
         std::cin >> items[i].weight >> items[i].value;
     }
 
     double max_knapsack_value = get_max_knapsack_value(knapsack_capacity, std::move(items));
-
     std::cout << max_knapsack_value << std:: endl;
 
     return 0;
