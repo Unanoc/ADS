@@ -1,7 +1,7 @@
-int getMax(int arr[], int length){
+int getMax(int arr[], int length) {
     int max = -1;
 
-    for (int i = 0; i < length; i++){
+    for (int i = 0; i < length; i++) {
         if (arr[i] > max)
             max = arr[i];
     }
@@ -9,7 +9,7 @@ int getMax(int arr[], int length){
     return max;
 }
 
-void transposition(int unsortedArr[], int length, int sizeOfDiv){
+void transposition(int unsortedArr[], int length, int sizeOfDiv) {
 	int outputArr[length];
 	int counters[10] = {0};
 
@@ -30,10 +30,10 @@ void transposition(int unsortedArr[], int length, int sizeOfDiv){
 
 }
 
-void LSD(int inputArr[], int n){
+void LSD(int inputArr[], int n) {
     int max = getMax(inputArr, n);
 
-    for(int i = 1; max/i > 0; i*=10){
+    for(int i = 1; max/i > 0; i*=10) {
         transposition(inputArr, n,  i);
     }
 
