@@ -83,5 +83,6 @@ int main() {
     }
 
     std::cout << findElement(arr, length, k);
+    delete [] arr;
     return 0;
 }
