@@ -216,7 +216,7 @@ T *findSlideMax(T *input, int n, int windowSize, Comparator cmp) {
 
     for (int i = 0; i < resultSize; ++i) {
 
-        if (cmp(max,heap.getMax())) {
+        if (cmp(max, heap.getMax())) {
             max = heap.getMax();
         }
 
