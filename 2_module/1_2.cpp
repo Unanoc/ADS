@@ -37,14 +37,12 @@ const int HASH_CONST_2 = 401;
 
 
 
-template <class T>
-struct Hasher {
-    Hasher() {};
-    int operator() (T str, int size, bool type);
+struct stringHash {
+    stringHash() = default;
+    int operator() (std::string str, int size, bool type);
 };
 
-template <class T>
-int Hasher<T>::operator()(T str, int size, bool type) {
+int stringHash::operator()(std::string str, int size, bool type) {
     int hash = 0;
     for (int i = 0; i < str.size(); ++i) {
         hash = (2 * (hash * (type ? HASH_CONST_1 : HASH_CONST_2) + str[i]) + 1) % size;
@@ -54,14 +52,14 @@ int Hasher<T>::operator()(T str, int size, bool type) {
 
 
 
-template <class T, class H = Hasher<T>>
+template <class T, class H = stringHash>
 class HashTable {
 public:
-    HashTable();
+    HashTable(const T &nil, const T &del);
     ~HashTable();
-    bool add(T data);
-    bool del(T data);
-    bool has(T data);
+    bool add(const T &data);
+    bool del(const T &data);
+    bool has(const T &data);
 
 private:
     T *_arr;
@@ -69,11 +67,13 @@ private:
     int elements_count;
     int _size;
 
+    T NIL;
+    T DEL;
     void _expand();
 };
 
 template <class T, class H>
-HashTable<T, H>::HashTable() {
+HashTable<T, H>::HashTable(const T &nil, const T &del) :NIL(nil), DEL(del) {
     elements_count = 0;
     _size = INIT_SIZE;
     _arr = new T[_size];
@@ -88,11 +88,10 @@ HashTable<T, H>::~HashTable() {
 }
 
 template <class T, class H>
-bool HashTable<T, H>::add(T data) {
+bool HashTable<T, H>::add(const T &data) {
     if (elements_count >= _size * 3 / 4)
         _expand();
 
-    bool is_found = false;
     int index = -1;
 
     int first_hash = _hasher(data, _size, 0);
@@ -104,27 +103,25 @@ bool HashTable<T, H>::add(T data) {
             return false;
         }
 
-        if (_arr[hash] == NIL || _arr[hash] == DEL) {
+        if (_arr[hash] == DEL && index < 0) {
             index = hash;
-            is_found = true;
-
-            if (_arr[hash] == NIL) {
-                break;
-            }
         }
 
+        if (_arr[hash] == NIL) {
+            if (index < 0) {
+                index = hash;
+            }
+            break;
+        }
     }
 
-    if (is_found) {
-        _arr[index] = data;
-        elements_count++;
-    }
-
-    return is_found;
+    _arr[index] = data;
+    elements_count++;
+    return true;
 }
 
 template <class T, class H>
-bool HashTable<T, H>::del(T data) {
+bool HashTable<T, H>::del(const T &data) {
     int first_hash = _hasher(data, _size, 0);
     int second_hash = _hasher(data, _size, 1);
 
@@ -146,7 +143,7 @@ bool HashTable<T, H>::del(T data) {
 }
 
 template <class T, class H>
-bool HashTable<T, H>::has(T data) {
+bool HashTable<T, H>::has(const T &data) {
     int first_hash = _hasher(data, _size, 0);
     int second_hash = _hasher(data, _size, 1);
 
@@ -178,7 +175,6 @@ void HashTable<T, H>::_expand() {
     for (int i = 0; i < _size / 2; ++i) {
         if (tmp[i] != DEL && tmp[i] != NIL) {
             add(tmp[i]);
-            elements_count++;
         }
     }
 
@@ -186,8 +182,8 @@ void HashTable<T, H>::_expand() {
 }
 
 int main() {
-    Hasher<std::string> hasher;
-    HashTable<std::string> table;
+    stringHash hasher;
+    HashTable<std::string> table(NIL, DEL);
 
     std::string operation, input_string;
 
