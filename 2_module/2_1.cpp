@@ -17,7 +17,6 @@ class BinaryTree {
 public:
     BinaryTree() = default;
     ~BinaryTree();
-    BinaryTree(const BinaryTree &other) : root(other.root) {}
 
     void add(T item);
     std::vector<T> get_in_order_passing() const;
