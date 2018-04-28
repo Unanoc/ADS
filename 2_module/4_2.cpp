@@ -6,6 +6,8 @@
  */
 #include <iostream>
 #include <cassert>
+#include <vector>
+#include <stack>
 
 template <class T>
 class AVLTree {
@@ -13,9 +15,9 @@ public:
     AVLTree() = default;
     ~AVLTree();
 
-    void add(T value);
-    void del(T value);
-    T get_stat_k(int k);
+    void add(const T& value);
+    void del(const T& value);
+    T get_stat_k(int k) const;
 
 private:
     struct Node {
@@ -25,45 +27,47 @@ private:
         Node *left;
         Node *right;
 
-        explicit Node(T value) : value(value), height(1), size(1), left(nullptr), right(nullptr) {}
+        explicit Node(const T& value) : value(value), height(1), size(1), left(nullptr), right(nullptr) {}
     };
 
-    int _getHeight(Node *tree);
-    int _balanceFactor(Node *tree);
+    int _getHeight(Node *tree) const;
+    int _balanceFactor(Node *tree) const;
     void _fixHeight(Node *tree);
     void _fixSize(Node *tree);
-    Node *_findMin(Node *tree);
 
     Node *_rightRotate(Node *p); /* small left rotation */
     Node *_leftRotate(Node *q); /* small right rotation */
     Node *_balanceNode(Node *tree); /* big right/left rotation */
 
-    Node *_add(Node *tree, T value);
-    Node *_del(Node *tree, T value);
-    Node *_delMin(Node *tree);
+    Node *_add(Node *tree, const T& value);
+    Node *_del(Node *tree, const T& value);
+    Node *_findAndDelMin(Node *tree, Node *&parent);
+
+    std::vector<Node *> _get_nodes_in_order_passing() const;
 
     Node *root = nullptr;
 };
 
 template<class T>
 AVLTree<T>::~AVLTree() {
-    while (root != nullptr) {
-        del(root->value);
+    std::vector<Node *> nodes_in_order = _get_nodes_in_order_passing();
+    for (Node* entry : nodes_in_order) {
+        delete entry;
     }
 }
 
 template<class T>
-void AVLTree<T>::add(T value) {
+void AVLTree<T>::add(const T& value) {
     root = _add(root, value);
 }
 
 template<class T>
-void AVLTree<T>::del(T value) {
+void AVLTree<T>::del(const T& value) {
     root = _del(root, value);
 }
 
 template<class T>
-T AVLTree<T>::get_stat_k(int k) {
+T AVLTree<T>::get_stat_k(int k) const {
     Node *currentNode = root;
 
     while (currentNode && k >= 0) {
@@ -83,12 +87,12 @@ T AVLTree<T>::get_stat_k(int k) {
 }
 
 template<class T>
-int AVLTree<T>::_getHeight(AVLTree<T>::Node *tree) {
+int AVLTree<T>::_getHeight(AVLTree<T>::Node *tree) const {
     return tree ? tree->height : 0;
 }
 
 template<class T>
-int AVLTree<T>::_balanceFactor(AVLTree<T>::Node *tree) {
+int AVLTree<T>::_balanceFactor(AVLTree<T>::Node *tree) const {
     return _getHeight(tree->right) - _getHeight(tree->left);
 }
 
@@ -108,11 +112,6 @@ void AVLTree<T>::_fixSize(AVLTree::Node *tree) {
     if (tree->right) {
         tree->size += tree->right->size;
     }
-}
-
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::_findMin(AVLTree<T>::Node *tree) {
-    return tree->left ? _findMin(tree->left) : tree;
 }
 
 template<class T>
@@ -162,7 +161,7 @@ typename AVLTree<T>::Node *AVLTree<T>::_balanceNode(AVLTree<T>::Node *tree) {
 }
 
 template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::_add(Node *tree, T value) {
+typename AVLTree<T>::Node *AVLTree<T>::_add(Node *tree, const T& value) {
     if (tree == nullptr) {
         return new Node(value);
     }
@@ -178,7 +177,7 @@ typename AVLTree<T>::Node *AVLTree<T>::_add(Node *tree, T value) {
 }
 
 template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::_del(Node *tree, T value) {
+typename AVLTree<T>::Node *AVLTree<T>::_del(Node *tree, const T& value) {
     if (!tree) {
         return nullptr;
     }
@@ -198,11 +197,13 @@ typename AVLTree<T>::Node *AVLTree<T>::_del(Node *tree, T value) {
             if (!rightChild) { /* if rightChild == empty */
                 return leftChild;
             }
-
-            Node *minNode = _findMin(rightChild);
-            minNode->right = _delMin(rightChild);
-            minNode->left = leftChild;
-            return _balanceNode(minNode);
+            else {
+                Node *minNode = nullptr;
+                Node *minNodeRight = _findAndDelMin(rightChild, minNode);
+                minNode->right = minNodeRight;
+                minNode->left = leftChild;
+                return _balanceNode(minNode);
+            }
         }
     }
 
@@ -210,13 +211,39 @@ typename AVLTree<T>::Node *AVLTree<T>::_del(Node *tree, T value) {
 }
 
 template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::_delMin(AVLTree<T>::Node *tree) {
+typename AVLTree<T>::Node *AVLTree<T>::_findAndDelMin(AVLTree<T>::Node *tree, AVLTree<T>::Node *&parent) {
     if (!tree->left) {
+        parent = tree;
         return tree->right;
     }
-    tree->left = _delMin(tree->left);
+
+    tree->left = _findAndDelMin(tree->left, parent);
     return _balanceNode(tree);
 }
+
+template<typename T>
+std::vector<typename AVLTree<T>::Node *> AVLTree<T>::_get_nodes_in_order_passing() const {
+    std::vector<Node *> result;
+    std::stack<Node *> stack;
+
+    Node *currentEntry = root;
+
+    while (!stack.empty() || currentEntry != nullptr) {
+        if (currentEntry != nullptr) {
+            stack.push(currentEntry);
+            currentEntry = currentEntry->left;
+        }
+        else {
+            currentEntry = stack.top();
+            stack.pop();
+            result.push_back(currentEntry);
+            currentEntry = currentEntry->right;
+        }
+    }
+
+    return result;
+}
+
 
 
 int main() {
