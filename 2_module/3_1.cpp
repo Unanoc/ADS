@@ -11,7 +11,6 @@
  Построить также наивное дерево поиска по ключам Xi методом из задачи 2.
 */
 
-
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -23,12 +22,12 @@ public:
     BinaryTree() = default;
     ~BinaryTree();
 
-    void add(T value);
+    void add(const T& value);
     int getHeight() const;
 
 private:
     struct Node {
-        explicit Node(T value) : value(value) {}
+        explicit Node(const T& value) : value(value) {}
         T value;
         Node *left = nullptr;
         Node *right = nullptr;
@@ -43,12 +42,12 @@ template<typename T>
 BinaryTree<T>::~BinaryTree() {
     std::vector<Node *> Nodes = _get_Nodes_in_order_passing();
     for (Node * Node : Nodes) {
-        delete [] Node;
+        delete Node;
     }
 }
 
 template<typename T>
-void BinaryTree<T>::add(T value) {
+void BinaryTree<T>::add(const T& value) {
     if (root == nullptr) {
         root = new Node(value);
     }
@@ -84,11 +83,11 @@ int BinaryTree<T>::getHeight() const {
     }
 
     int maxHeight = 1;
-    std::queue<std::pair<Node *, int >> q;
+    std::queue<std::pair<Node *, int>> q;
     q.push(std::make_pair(root, 1));
 
     while (!q.empty()) {
-        std::pair<Node*, int > currentPair = q.front();
+        std::pair<Node*, int> currentPair = q.front();
         q.pop();
         Node *currentNode = currentPair.first;
         int currentHeight = currentPair.second;
@@ -139,12 +138,12 @@ public:
     Treap() = default;
     ~Treap();
 
-    void add(T value, K priority);
+    void add(const T& value, const K& priority);
     int getHeight() const;
 
 private:
     struct Node {
-        explicit Node(T value, K priority) : value(value), priority(priority) {}
+        explicit Node(const T& value, const K& priority) : value(value), priority(priority) {}
 
         T value;
         K priority;
@@ -152,7 +151,7 @@ private:
         Node *right = nullptr;
     };
 
-    std::pair<Node *, Node*> _split(Node *tree, T value);
+    std::pair<Node *, Node*> _split(Node *tree, const T& value);
     Node *_merge(Node *leftTree, Node *rightTree);
     std::vector<Node *> _get_Nodes_in_order_passing() const;
 
@@ -163,12 +162,12 @@ template<typename T, typename K>
 Treap<T, K>::~Treap() {
     std::vector<Node *> entries = _get_Nodes_in_order_passing();
     for (Node * Node : entries) {
-        delete [] Node;
+        delete Node;
     }
 }
 
 template<typename T, typename K>
-void Treap<T, K>::add(T value, K priority) {
+void Treap<T, K>::add(const T& value, const K& priority) {
     if (root == nullptr) {
         root = new Node(value, priority);
     }
@@ -224,11 +223,11 @@ int Treap<T, K>::getHeight() const {
     }
 
     int maxHeight = 1;
-    std::queue<std::pair<Node *, int >> q;
+    std::queue<std::pair<Node *, int>> q;
     q.push(std::make_pair(root, 1));
 
     while (!q.empty()) {
-        std::pair<Node*, int > currentPair = q.front();
+        std::pair<Node*, int> currentPair = q.front();
         q.pop();
         Node *currentNode = currentPair.first;
         int currentHeight = currentPair.second;
@@ -250,7 +249,7 @@ int Treap<T, K>::getHeight() const {
 }
 
 template<typename T, typename K>
-std::pair<typename Treap<T, K>::Node *, typename Treap<T, K>::Node *> Treap<T, K>::_split(Treap::Node *tree, T value) {
+std::pair<typename Treap<T, K>::Node *, typename Treap<T, K>::Node *> Treap<T, K>::_split(Treap::Node *tree, const T& value) {
     if (tree == nullptr) {
         return std::make_pair(nullptr, nullptr);
     }
@@ -305,7 +304,6 @@ std::vector<typename Treap<T, K>::Node *> Treap<T, K>::_get_Nodes_in_order_passi
 
     return result;
 }
-
 
 int main() {
     int elementsCount;
