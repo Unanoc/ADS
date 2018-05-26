@@ -34,10 +34,8 @@ void CSetGraph::GetNextVertices(int vertex, std::vector<int> &vertices) const {
     assert(vertex >= 0 && vertex < listHashTables.size());
     vertices.clear();
 
-    for (int i = 0; i < listHashTables.size(); i++) {
-        if (listHashTables[vertex].find(i) != listHashTables[vertex].end()) {
-            vertices.push_back(i);
-        }
+    for (const auto &elem : listHashTables[vertex]) {
+        vertices.push_back(elem);
     }
 }
 
