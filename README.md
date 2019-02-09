@@ -1,2 +1,2 @@
-# tpark_asd
- The first semester of Technopark@MailRu. Algorithms and data structures course.
+# ASD
+Repository with Algorithms and Data Structures that I know.
