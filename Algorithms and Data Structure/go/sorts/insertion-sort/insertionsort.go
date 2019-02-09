@@ -1,7 +1,6 @@
-package sorts
+package insertion
 
-// InsertionSort uses the insertion sort algorithm to sort an integer slice.
-func InsertionSort(arr []int) {
+func sort(arr []int) {
 	for i := 0; i < len(arr); i++ {
 		j := 0
 

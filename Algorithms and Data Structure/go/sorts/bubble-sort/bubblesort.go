@@ -1,7 +1,6 @@
-package sorts
+package bubble
 
-// BubbleSort uses the bubble sort algorithm to sort an integer slice.
-func BubbleSort(arr []int) {
+func sort(arr []int) {
 	sorted := false
 	for !sorted {
 		sorted = true

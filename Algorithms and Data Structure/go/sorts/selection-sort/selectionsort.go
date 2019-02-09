@@ -1,7 +1,6 @@
-package sorts
+package selection
 
-// SelectionSort uses the selection sort algorithm to sort an integer slice.
-func SelectionSort(arr []int) {
+func sort(arr []int) {
 	for i := 0; i < len(arr); i++ {
 		min := i
 		for j := i; j < len(arr); j++ {
