@@ -39,8 +39,8 @@ func BenchmarkIter100000(b *testing.B)   { benchmarkIter(100000, b) }
 func BenchmarkIter1000000(b *testing.B)  { benchmarkIter(1000000, b) }
 func BenchmarkIter10000000(b *testing.B) { benchmarkIter(10000000, b) }
 
-//func BenchmarkRecurse10(b *testing.B)     { benchmarkRecurse(10, b) }
-//func BenchmarkRecurse100(b *testing.B)    { benchmarkRecurse(100, b) }
-//func BenchmarkRecurse1000(b *testing.B)   { benchmarkRecurse(1000, b) }
-//func BenchmarkRecurse10000(b *testing.B)  { benchmarkRecurse(10000, b) }
-//func BenchmarkRecurse100000(b *testing.B) { benchmarkRecurse(100000, b) }
+func BenchmarkRecurse10(b *testing.B)     { benchmarkRecurse(10, b) }
+func BenchmarkRecurse100(b *testing.B)    { benchmarkRecurse(100, b) }
+func BenchmarkRecurse1000(b *testing.B)   { benchmarkRecurse(1000, b) }
+func BenchmarkRecurse10000(b *testing.B)  { benchmarkRecurse(10000, b) }
+func BenchmarkRecurse100000(b *testing.B) { benchmarkRecurse(100000, b) }
