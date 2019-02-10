@@ -9,7 +9,7 @@ int Partition(vector<int> &arr, int from, int to) {
         }
     }
 
-    swap(arr[to],arr[wall]);
+    swap(arr[to], arr[wall]);
     return wall;
 }
 
