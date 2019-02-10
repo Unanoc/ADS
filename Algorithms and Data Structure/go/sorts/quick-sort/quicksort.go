@@ -1,19 +1,14 @@
 package quick
 
-// QuickSort uses the quick sort algorithm to sort an integer slice.
 func sort(arr []int) {
-	left := 0
-	right := len(arr)
-
-	if left < right {
-		pivot := Partition(arr)
+	if 0 < len(arr) {
+		pivot := partition(arr)
 		sort(arr[:pivot])
 		sort(arr[pivot+1:])
 	}
 }
 
-// Partition ...
-func Partition(arr []int) int {
+func partition(arr []int) int {
 	pivot := arr[len(arr)-1]
 	i := -1
 
