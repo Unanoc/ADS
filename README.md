@@ -1,2 +1,2 @@
-# ASD
-Repository with Algorithms and Data Structures that I know.
+# ADS
+Here I practice algorithms and data structures
