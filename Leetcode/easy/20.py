@@ -33,23 +33,23 @@ def is_opened(s):
     return False
 
 
+class Solution:
+    def isValid(self, s):
+        if len(s) == 0:
+            return True
+        
+        stack = list()
+        mapping = {'}':'{', ')':'(', ']':'['}
 
-def isValid(s):
-    if len(s) == 0:
-        return True
-    
-    stack = list()
-    mapping = {'}':'{', ')':'(', ']':'['}
+        for i in s:
+            if is_opened(i):
+                stack.append(i)
+            elif len(stack) > 0 and mapping[i] == stack.pop():
+                continue
+            else:
+                return False
 
-    for i in s:
-        if is_opened(i):
-            stack.append(i)
-        elif len(stack) > 0 and mapping[i] == stack.pop():
-            continue
-        else:
+        if len(stack) != 0:
             return False
 
-    if len(stack) != 0:
-        return False
-
-    return True
+        return True

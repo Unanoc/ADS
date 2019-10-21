@@ -9,12 +9,12 @@
 # return [0, 1].
 
 
-
-def twoSum(nums, target):
-    table = {}
-    for i in range(0, len(nums)):
-        complement = target - nums[i]
-        if complement in table:
-            return [table[complement], i]
-        else:
-            table[nums[i]] = i
+class Solution:
+    def twoSum(self, nums, target):
+        table = {}
+        for i in range(0, len(nums)):
+            complement = target - nums[i]
+            if complement in table:
+                return [table[complement], i]
+            else:
+                table[nums[i]] = i

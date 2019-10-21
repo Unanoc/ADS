@@ -12,18 +12,19 @@
 # Output: ""
 # Explanation: There is no common prefix among the input strings.
 
-def longestCommonPrefix(strs):
-    index = 0
-    prefix = ""
+class Solution:
+    def longestCommonPrefix(self, strs):
+        index = 0
+        prefix = ""
 
-    while True:
-        try:
-            current_letter = strs[0][index]
+        while True:
+            try:
+                current_letter = strs[0][index]
 
-            for word in strs:
-                if current_letter != word[index]:
-                    return prefix
-            index += 1
-            prefix += current_letter
-        except IndexError:
-            return prefix
+                for word in strs:
+                    if current_letter != word[index]:
+                        return prefix
+                index += 1
+                prefix += current_letter
+            except IndexError:
+                return prefix

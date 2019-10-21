@@ -12,36 +12,37 @@ class ListNode:
         self.val = x
         self.next = None
 
-def mergeTwoLists(l1, l2):
-    if l1 is None or l2 is None:
-        return l1 or l2
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        if l1 is None or l2 is None:
+            return l1 or l2
 
-    root = None
-    if l1.val <= l2.val:
-        root = l1
-        l1 = l1.next
-    else:
-        root = l2
-        l2 = l2.next
-
-    tmp = root
-
-    while l1 and l2:
+        root = None
         if l1.val <= l2.val:
-            tmp.next = l1
+            root = l1
             l1 = l1.next
         else:
+            root = l2
+            l2 = l2.next
+
+        tmp = root
+
+        while l1 and l2:
+            if l1.val <= l2.val:
+                tmp.next = l1
+                l1 = l1.next
+            else:
+                tmp.next = l2
+                l2 = l2.next
+            tmp = tmp.next
+        
+        while l1:
+            tmp.next = l1
+            l1 = l1.next
+            tmp = tmp.next
+        while l2:
             tmp.next = l2
             l2 = l2.next
-        tmp = tmp.next
-    
-    while l1:
-        tmp.next = l1
-        l1 = l1.next
-        tmp = tmp.next
-    while l2:
-        tmp.next = l2
-        l2 = l2.next
-        tmp = tmp.next
+            tmp = tmp.next
 
-    return root
+        return root
