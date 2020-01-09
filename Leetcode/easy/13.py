@@ -33,9 +33,3 @@ class Solution:
             prev = mapRomanInt[s[i]]
 
         return result
-
-c = Solution()
-print(c.romanToInt('MCMXCIV'))
-
-1000
-1100

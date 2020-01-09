@@ -27,5 +27,3 @@ class Solution:
             return 0
         else:
             return y
-        
-

@@ -27,6 +27,3 @@ class Solution:
             if s[i] != s[len(s)-1-i]:
                 return False
         return True
-
-s = Solution()
-print(s.isPalindrome(-121))

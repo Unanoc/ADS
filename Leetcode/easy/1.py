@@ -18,4 +18,3 @@ class Solution:
                 return [table[complement], i]
             else:
                 table[nums[i]] = i
-kk
